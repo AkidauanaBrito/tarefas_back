@@ -1,5 +1,5 @@
 const PORTA = 5000;
-const URL_BANCO_DE_DADOS = 'mongodb://localhost/tarefas';
+const URL_BANCO_DE_DADOS = process.env.URL_BANCO_DE_DADOS || 'mongodb://localhost/tarefas';
 
 // Importando bibliotecas
 const express    = require('express');

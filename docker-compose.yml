@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  app:
+    build: .
+    container_name: node-app
+    ports:
+      - "5000:5000"
+    environment:
+      - URL_BANCO_DE_DADOS=mongodb://mongo/tarefas
+    depends_on:
+      - mongo
+
+  front:
+    build:
+      context: ../tarefas_front
+    container_name: react-front
+    ports:
+      - "3000:80"
+    environment:
+      - REACT_APP_URL_BACK=http://app:5000/tarefas
+    depends_on:
+      - app
+
+volumes:
+  mongo-data:
